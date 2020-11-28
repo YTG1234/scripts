@@ -3,7 +3,7 @@
 installWith() {
     if [[ $1 == "curl" ]]; then
         echo "Installing using CURL"
-        sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+        sudo curl -L -k https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
         sudo chmod a+rx /usr/local/bin/youtube-dl
         echo "Installation complete"
     elif [[ $1 == "wget" ]]; then
