@@ -1,21 +1,12 @@
---- build.gradle	2020-11-22 20:24:03.000000000 +0200
-+++ build.new.gradle	2020-11-22 20:24:10.000000000 +0200
-@@ -111,5 +111,9 @@
-                builtBy remapJar
-            }
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
-            }
-        }
-    }
-
-    // select the repositories you want to publish to
- 	repositories {
- 		// uncomment to publish to the local maven
- 		// mavenLocal()
+--- build.gradle	2020-12-14 11:29:26.000000000 +0200
++++ build.new.gradle	2020-12-14 11:29:05.000000000 +0200
+@@ -145,5 +145,9 @@
+     repositories {
+         // uncomment to publish to the local maven
+         // mavenLocal()
 +
 +        maven {
 +            url = "file://${projectDir}/repo"
 +        }
- 	}
+     }
  }
