@@ -114,7 +114,7 @@ Authorization: {{$processEnv MODRINTH_API_TOKEN}}
     "loaders": [], // List of mod loader IDs in strings, returned from line 12
     "accepted": true, // Only moderators can change this
     "featured": true,
-    "primary_file": ["", ""] // idk what to put here, figure it out yourself
+    "primary_file": ["", ""] // First string should be a hashing method, e. g. "sha1", and the second string should be the hash itself.
 }
 
 ###
