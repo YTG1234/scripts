@@ -1,0 +1,123 @@
+// -------------------------
+// | Modrinth API Requests |
+// -------------------------
+
+// ---------------------------------------------
+// |          Getting information              |
+// ---------------------------------------------
+
+// Getting Tag Lists
+GET https://api.modrinth.com/api/v1/tag/category
+###
+GET https://api.modrinth.com/api/v1/tag/loader
+###
+GET https://api.modrinth.com/api/v1/tag/game_version
+###
+GET https://api.modrinth.com/api/v1/tag/license
+
+// Getting a list of mods
+###
+GET https://api.modrinth.com/api/v1/mod
+###
+// Getting Information about a specific mod
+GET https://api.modrinth.com/api/v1/mod/Jw3Wx1KR
+// Replace Jw3Wx1KR with the mod ID
+
+###
+// Getting User Information
+GET https://api.modrinth.com/api/v1/user/m44EmA3V
+// Replace m44EmA3V with the user ID
+###
+GET https://api.modrinth.com/api/v1/user/@Giselbaer
+// Replace Giserbaer with the user name
+###
+GET https://api.modrinth.com/api/v1/user
+Authorization: {{$processEnv MODRINTH_API_TOKEN}}
+// Get information about yourself
+// This assumes you have set the MODRINTH_API_TOKEN environment variable (see below)
+
+###
+// List all mods by a certain user
+GET https://api.modrinth.com/api/v1/user/m44EmA3V/mods
+// Replace m44EmA3V with the user ID
+###
+
+// ------------------------------------
+// |         Changing Things          |
+// ------------------------------------
+
+// Step 1: Getting an API Key (GitHub token)
+    // Go to https://github.com/settings/tokens/new to create a token. You don't need to enable any scopes.
+    // Add the token to your password manager; you won't be able to see it again.
+// Step 2: (Specific for this file) Declaring an Environment Variable
+    // This will only work on macOS/Linux
+    // Open your shell config file (~/.bash_profile or ~/.bashrc for bash, ~/.zshrc for ZSH, ...)
+    // Add a new line:
+        // export MODRINTH_API_TOKEN="your token here"
+        // replace "your token here" with the GitHub token you generated.
+
+// From this line below, be careful to not accidentally trigger requests here!
+
+// Editing User Info
+PATCH https://api.modrinth.com/api/v1/user/m44EmA3V
+// Replace m44EmA3V with your user ID
+Content-Type: application/json
+Authorization: {{$processEnv MODRINTH_API_TOKEN}}
+
+{
+    "username": "",
+    "name": "", // Nullable
+    "email": "", // Nullable
+    "bio": "", // Nullable
+    "role": ""
+}
+
+###
+// Editing Mod Info
+PATCH https://api.modrinth.com/api/v1/mod/Jw3Wx1KR
+// Replace Jw3Wx1KR with the mod you want to edit (of course, the mod has to belong to you)
+Content-Type: application/json
+Authorization: {{$processEnv MODRINTH_API_TOKEN}}
+
+{
+    "title": "",
+    "description": "",
+    "body": "",
+    "status": "approved", // Enum: "approved", "rejected", "draft", "unlisted", "processing", "unknown"
+    "categories": [], // List of strings that can be one of the categories returned from line 10
+    "issues_url": "", // Nullable
+    "source_url": "", // Nullable
+    "wiki_url": "", // Nullable
+    "license_url": "", // Nullable
+    "discord_url": "", // Nullable
+    "donation_url": [], // List of objects; { "id": "", "platform": "", "url": "" }
+    "license_id": "", // ID returned from line 16
+    "client_side": "", // Enum: "required", "optional", "unsupported", "unknown" but optional doesn't work :(
+    "server_side": "", // Enum: "required", "optional", "unsupported", "unknown" but optional doesn't work :(
+    "slug": "" // Nullable
+}
+
+###
+// Editing Version Info
+PATCH https://api.modrinth.com/api/v1/version/O2KTnyJK
+// Replace O2KTnyJK with the ID of the version you want to edit
+// The version has to belong to a mod that you own, but you don't have to specify the mod ID
+Content-Type: application/json
+Authorization: {{$processEnv MODRINTH_API_TOKEN}}
+
+{
+    "name": "",
+    "changelog": "",
+    "version_type": "", // Enum: "release", "beta", "alpha"
+    "dependencies": [], // List of version IDs in strings
+    "game_versions": [], // List of specific versions of Minecraft in strings, returned from line 14
+    "loaders": [], // List of mod loader IDs in strings, returned from line 12
+    "accepted": true,
+    "featured": true,
+    "primary_file": ""
+}
+
+###
+// Deleting a Version
+DELETE https://api.modrinth.com/api/v1/version/O2KTnyJK
+Authorization: {{$processEnv MODRINTH_API_TOKEN}}
