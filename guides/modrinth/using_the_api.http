@@ -69,7 +69,7 @@ Authorization: {{$processEnv MODRINTH_API_TOKEN}}
     "name": "", // Nullable
     "email": "", // Nullable
     "bio": "", // Nullable
-    "role": ""
+    "role": "" // Only moderators can edit this
 }
 
 ###
