@@ -83,7 +83,7 @@ Authorization: {{$processEnv MODRINTH_API_TOKEN}}
     "title": "",
     "description": "",
     "body": "",
-    "status": "approved", // Enum: "approved", "rejected", "draft", "unlisted", "processing", "unknown"
+    "status": "approved", // Enum: "approved", "rejected", "draft", "unlisted", "processing", "unknown" - You can't always edit the status, it depends
     "categories": [], // List of strings that can be one of the categories returned from line 10
     "issues_url": "", // Nullable
     "source_url": "", // Nullable
@@ -112,12 +112,14 @@ Authorization: {{$processEnv MODRINTH_API_TOKEN}}
     "dependencies": [], // List of version IDs in strings
     "game_versions": [], // List of specific versions of Minecraft in strings, returned from line 14
     "loaders": [], // List of mod loader IDs in strings, returned from line 12
-    "accepted": true,
+    "accepted": true, // Only moderators can change this
     "featured": true,
-    "primary_file": ""
+    "primary_file": ["", ""] // idk what to put here, figure it out yourself
 }
 
 ###
 // Deleting a Version
 DELETE https://api.modrinth.com/api/v1/version/O2KTnyJK
+// Replace O2KTnyJK with the ID of the version you want to edit
+// The version has to belong to a mod that you own, but you don't have to specify the mod ID
 Authorization: {{$processEnv MODRINTH_API_TOKEN}}
