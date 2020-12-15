@@ -56,7 +56,7 @@ GET https://api.modrinth.com/api/v1/user/m44EmA3V/mods
         // export MODRINTH_API_TOKEN="your token here"
         // replace "your token here" with the GitHub token you generated.
 
-// Remove the "//" comments when actually sending the request, otherwise the server will return 400 Bad Request.
+// Remove the "//" comments (from the Json body) when actually sending the request, otherwise the server will return 400 Bad Request.
 // From this line below, be careful to not accidentally trigger requests here!
 
 // Editing User Info
