@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 installWith() {
     if [ $1 == "curl" ]; then
