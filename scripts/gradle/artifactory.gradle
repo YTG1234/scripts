@@ -9,17 +9,17 @@ buildscript {
 
 apply plugin: "com.jfrog.artifactory"
 
-if (System.getProperty("artifactory.repo") != null && System.getProperty("artifactory.user") != null && System.getProperty("artifactory.password") != null) {
+if (project."artifactory.url" != null && project."artifactory.repo" != null && project."artifactory.user" != null && project."artifactory.password" != null) {
 	project.artifactory {
-		contextUrl = System.getProperty("artifactory.repo")
+		contextUrl = project"artifactory.url"
 		publish {
     		repository {
-				repoKey = "maven-local"
-				username = System.getProperty("artifactory.user")
-				password = System.getProperty("artifactory.password")
+				repoKey = project."artifactory.repo"
+				username = project."artifactory.user"
+				password = project."artifactory.password"
     		}
     		defaults {
-				publications("mavenJava")
+				publications(project."artifactory.publications" != null ? project."artifactory.publications".split(",") : "mavenJava")
 				publishArtifacts = true
 				publishPom = true
     		}
