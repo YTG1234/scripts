@@ -1,0 +1,28 @@
+buildscript {
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath("com.jfrog.buildinfo:build-info-extractor-gradle:4.+")
+	}
+}
+
+apply plugin: "com.jfrog.artifactory"
+
+if (System.getProperty("artifactory.repo") != null && System.getProperty("artifactory.user") != null && System.getProperty("artifactory.password") != null) {
+	project.artifactory {
+		contextUrl = System.getProperty("artifactory.repo")!!
+		publish {
+    		repository {
+				repoKey = "maven-local"
+				username = System.getProperty("artifactory.user")!!
+				password = System.getProperty("artifactory.password")!!
+    		}
+    		defaults {
+				publications("mavenJava")
+				publishArtifacts = true
+				publishPom = true
+    		}
+		}
+	}
+}
