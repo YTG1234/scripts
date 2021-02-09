@@ -9,7 +9,7 @@ buildscript {
 
 apply plugin: "com.jfrog.artifactory"
 
-if (properties["artifactory.url"] != null && properties["artifactory.repo"] != null && proprties["artifactory.user"] != null && properties["artifactory.password"] != null) {
+if (properties["artifactory.url"] != null && properties["artifactory.repo"] != null && properties["artifactory.user"] != null && properties["artifactory.password"] != null) {
 	project.artifactory {
 		contextUrl = properties["artifactory.url"]
 		publish {

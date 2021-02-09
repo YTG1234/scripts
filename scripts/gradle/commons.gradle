@@ -1,0 +1,1 @@
+pluginManager.withPlugin("org.jetbrains.kotlin.jvm")
