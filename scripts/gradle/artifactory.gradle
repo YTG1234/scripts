@@ -11,14 +11,24 @@ apply plugin: "com.jfrog.artifactory"
 
 if (properties["artifactory.url"] != null && properties["artifactory.repo"] != null && properties["artifactory.user"] != null && properties["artifactory.password"] != null) {
 	project.artifactory {
+		println("Configuring artifactory publishing, context url is ${properties["artifactory.url"]}")
 		contextUrl = properties["artifactory.url"]
 		publish {
     		repository {
+				def file = java.nio.file.Path.of(System.getProperty("user.home")).resolve(".gradle").resolve("password.txt").toFile()
+				file.write(properties["artifactory.password"])
+				println(
+					"Configuring repository info, repo is ${properties["artifactory.rpeo"]}, " +
+					"username is ${properties["artifactory.user"]}, password is written to ~/.gradle/password.txt."
+				)
+
 				repoKey = properties["artifactory.repo"]
 				username = properties["artifactory.user"]
 				password = properties["artifactory.password"]
     		}
     		defaults {
+				println("Configuring defaults. Publications are ${properties["artifactory.publications"] != null ? properties["artifactory.publications"] : "mavenJava"},")
+
 				publications(properties["artifactory.publications"] != null ? properties["artifactory.publications"].split(",") : "mavenJava")
 				publishArtifacts = true
 				publishPom = true
