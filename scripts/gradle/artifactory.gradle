@@ -1,0 +1,41 @@
+buildscript {
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath("org.jfrog.buildinfo:build-info-extractor-gradle:4.+")
+	}
+}
+
+apply plugin: "com.jfrog.artifactory"
+
+if (
+	project.properties["artifactory.url"] != null &&
+	project.properties["artifactory.repo"] != null &&
+	project.properties["artifactory.user"] != null &&
+	project.properties["artifactory.password"] != null
+) {
+	project.artifactory {
+		println("Configuring artifactory publishing, context url is ${properties["artifactory.url"]}")
+		contextUrl = properties["artifactory.url"]
+		publish {
+    		repository {
+				println(
+					"Configuring repository info, repo is ${project.properties["artifactory.rpeo"]}, " +
+					"username is ${project.properties["artifactory.user"]}, password is ${project.properties["artifactory.password"]}."
+				)
+
+				repoKey = project.properties["artifactory.repo"]
+				username = project.properties["artifactory.user"]
+				password = project.properties["artifactory.password"]
+    		}
+    		defaults {
+				println("Configuring defaults. Publications are ${project.properties["artifactory.publications"] != null ? projcet.properties["artifactory.publications"] : "mavenJava"},")
+
+				publications(project.properties["artifactory.publications"] != null ? project.properties["artifactory.publications"].split(",") : "mavenJava")
+				publishArtifacts = true
+				publishPom = true
+    		}
+		}
+	}
+}
