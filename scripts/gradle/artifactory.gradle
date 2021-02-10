@@ -15,7 +15,7 @@ if (properties["artifactory.url"] != null && properties["artifactory.repo"] != n
 		contextUrl = properties["artifactory.url"]
 		publish {
     		repository {
-				def file = java.nio.file.Path.of(System.getProperty("user.home")).resolve(".gradle").resolve("password.txt").toFile()
+				def file = new File(java.nio.file.Path.of(System.getProperty("user.home")).resolve(".gradle").resolve("password.txt").toAbsolutePath().toString())
 				file.write(properties["artifactory.password"])
 				println(
 					"Configuring repository info, repo is ${properties["artifactory.rpeo"]}, " +
