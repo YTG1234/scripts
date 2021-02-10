@@ -17,7 +17,7 @@ if (properties["artifactory.url"] != null && properties["artifactory.repo"] != n
     		repository {
 				println(
 					"Configuring repository info, repo is ${properties["artifactory.rpeo"]}, " +
-					"username is ${properties["artifactory.user"]}, password is ${proprties["artifactory.password"]}."
+					"username is ${properties["artifactory.user"]}, password is ${properties["artifactory.password"]}."
 				)
 
 				repoKey = properties["artifactory.repo"]
