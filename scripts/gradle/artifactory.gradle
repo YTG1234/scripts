@@ -23,7 +23,7 @@ if (
 				def file = new File(java.nio.file.Path.of(System.getProperty("user.home")).resolve(".gradle").resolve("password.txt").toAbsolutePath().toString())
 				file.write(project.properties["artifactory.password"])
 				println(
-					"Configuring repository info, repo is ${project.properties["artifactory.rpeo"]}, " +
+					"Configuring repository info, repo is ${project.properties["artifactory.repo"]}, " +
 					"username is ${project.properties["artifactory.user"]}, password is written to ~/.gradle/password.txt."
 				)
 
