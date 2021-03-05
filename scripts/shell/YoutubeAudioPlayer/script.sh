@@ -20,13 +20,13 @@ installWith() {
         sudo apt install youtube-dl ffmpeg alsa-utils -y
     elif [ $1 == "paru" ]; then
         echo "Installing using Paru AUR helper"
-        paru -S youtube-dl ffmpeg alsa-utils
+        paru -S --needed youtube-dl ffmpeg alsa-utils
     elif [ $1 == "yay" ]; then
         echo "Installing using Yay AUR helper (just use Paru tbh)"
-        yay -S youtube-dl ffmpeg alsa-utils
+        yay -S --needed youtube-dl ffmpeg alsa-utils
     elif [ $1 == "pacman" ]; then
         echo "Installing using Pacman (Arch Linux)"
-        sudo pacman -S youtube-dl ffmpeg alsa-utils
+        sudo pacman -S --needed youtube-dl ffmpeg alsa-utils
     elif [ $1 == "emerge" ]; then
         echo "Installing using Portage (Gentoo)"
         sudo emerge youtube-dl ffmpeg alsa-utils
@@ -36,34 +36,48 @@ installWith() {
     fi
 }
 
+installThings() {
+    if command -v apt &> /dev/null; then
+        installWith apt
+    elif command -v pacman &> /dev/null; then
+        if command -v paru &> /dev/null; then
+            installWith paru
+        elif command -v yay &> /dev/null; then
+            installWith yay
+        else
+            installWith pacman
+        fi
+    elif command -v emerge &> /dev/null; then
+        installWith emerge
+    elif command -v yum &> /dev/null; then
+        installWith yum
+    elif command -v curl &> /dev/null; then
+        installWith curl
+    elif command -v wget &> /dev/null; then
+        installWith wget
+    fi
+}
+
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     echo "GNU/Linux detected."
     if ! command -v youtube-dl &> /dev/null; then
-        if command -v apt &> /dev/null; then
-            installWith apt
-        elif command -v pacman &> /dev/null; then
-            if command -v paru &> /dev/null; then
-                installWith paru
-            elif command -v yay &> /dev/null; then
-                installWith yay
-            else
-            	installWith pacman
-            fi
-        elif command -v emerge &> /dev/null; then
-            installWith emerge
-        elif command -v yum &> /dev/null; then
-            installWith yum
-        elif command -v curl &> /dev/null; then
-            installWith curl
-        elif command -v wget &> /dev/null; then
-            installWith wget
-        fi
+        installThings
+    fi; if ! command -v ffmpeg &> /dev/null; then
+        installThings
+    fi; if [[ -z "$(command -v aplay &> /dev/null)" && -z "$(command -v pw-play)" ]]; then
+        installThings
     fi
 
     youtube-dl -f 140 <VIDEO ID> -o /tmp/thing.m4a
     ffmpeg -i /tmp/thing.m4a /tmp/thing.wav
-    aplay /tmp/thing.wav
+
+    if command -v pw-play &> /dev/null; then
+        pw-play /tmp/thing.wav
+    else
+        aplay /tmp/thing.wav
+    fi
+
     rm /tmp/thing.m4a
     rm /tmp/thing.wav
 elif [[ "$OSTYPE" == "darwin"* ]] ; then
